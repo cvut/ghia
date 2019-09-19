@@ -1,0 +1,3 @@
+Unexpected behavior
+
+When I enter my username, it just crashes and my screen turns pink. I am very desperate and only restart and bottle of whiskey helps…

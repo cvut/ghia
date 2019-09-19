@@ -1,0 +1,3 @@
+Missing username field
+
+There is no username field in registration form in mobile version.

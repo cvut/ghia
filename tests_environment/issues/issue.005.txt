@@ -1,0 +1,3 @@
+Database disconnected
+
+Once I press the red button, the database is disconnected. Any idea why? (#5)

@@ -1,0 +1,3 @@
+Unchanged
+
+This issue shouldn't be changed until you run strategy change with empty rules...

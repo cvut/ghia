@@ -1,0 +1,3 @@
+As developer, I need a simple issue assignment process
+
+Since there are tons of issues, we need to have some tool that assigns them automatically according to certain rules. Ideally, using regex matching and setting fallback label if it is not assigned to anyone - for manual assignment.

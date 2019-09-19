@@ -1,0 +1,3 @@
+Why not Java
+
+Java is also an option to do this? Why have you picked what you picked? And have you heard about Haskell… functions, functions everywhere!

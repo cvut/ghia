@@ -1,0 +1,3 @@
+Takový malý problém
+
+Když někdo bude psát issue v jiném jazyce, než čekáme, tak budeme muset přiřazovat sami. Ještě že nám ghia nastaví štítek! Snad to funguje dobře :wink:

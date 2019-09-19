@@ -1,0 +1,3 @@
+Czech translation
+
+Is it possible to add czech translation in some standard way?

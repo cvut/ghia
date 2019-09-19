@@ -1,0 +1,3 @@
+Setup development environment
+
+Hello, how can I please setup development environment? Especially how to build and run it using IntelliJ PyCharm? Or is there any other toolset recommended?

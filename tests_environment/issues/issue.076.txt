@@ -1,0 +1,3 @@
+Backend crashes on startup
+
+I am running it normally on my PC with Windows and Linux but when I try it on Mac, the backend just wents down during start although frontend still works.

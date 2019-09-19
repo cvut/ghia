@@ -1,0 +1,3 @@
+Implement CWL
+
+The CWL (see https://www.commonwl.org) might meet our needs…

@@ -1,0 +1,3 @@
+Kanban workflow
+
+We want to prepare kanban board for easier project management in our small team.

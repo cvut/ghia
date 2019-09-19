@@ -1,0 +1,3 @@
+Configurable backend connection
+
+It would be nice if connection for backend is not hardcoded but configurable. Is it possible somehow currently?

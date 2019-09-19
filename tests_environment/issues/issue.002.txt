@@ -1,0 +1,3 @@
+As developer, I need contribution guidelines
+
+The contribution guidelines should be set up and published as part of the repository so I can contribute easily as open source allows.

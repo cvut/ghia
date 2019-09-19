@@ -1,0 +1,3 @@
+Wild error appears
+
+There is a problem with networking and it shows that DNS is not available. Seems to be some problem with requests library.

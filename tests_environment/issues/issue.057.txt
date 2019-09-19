@@ -1,0 +1,3 @@
+Git flow
+
+Start to use git flow: https://github.com/nvie/gitflow

@@ -1,0 +1,3 @@
+Frontend rework
+
+The frontend and website parts are real hell, please rework it completely!

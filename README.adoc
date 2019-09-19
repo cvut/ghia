@@ -157,13 +157,20 @@ Pro jejich spuštění nainstalujte do virtuálního prostředí balík `pytest`
 
 Testy vyžadují určitý setup repozitáře v rámci organizace MI-PYT-ghia, do
 které budete pozváni po zaslání emailu s Vaším GitHub účtem některému ze
-cvičících. Pro jeho vytvoření použijte skript `tests_environment/setup.sh`.
+cvičících. Pro jeho vytvoření použijte skript `setup.sh` z adresáře `tests_environment`.
 Je třeba nastavit proměnné prostředí `GITHUB_TOKEN` a `GITHUB_USER`.
 Token musí příslušet danému uživateli a mít scope `repo`.
+Skript je potřeba spouštět z adresáře `tests_environment`.
 
 Skript využívá program https://hub.github.com/[hub],
 který si *nejprve zprovozněte*. Skript je otestován na Linux i
 Windows (pomocí https://gitforwindows.org[git bash]).
+
+[source,console]
+$ cd tests_environment
+$ export GITHUB_USER=anicka
+$ export GITHUB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+$ ./setup.sh
 
 Testy jsou napsané tak, že pokud váš program funguje dle zadání,
 dají se pouštět opakovaně. Pokud ale dle zadání nefunguje,

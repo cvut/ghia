@@ -80,6 +80,9 @@ Zadává se ve formátu „reposlug“ (`uživatel/název` případně `organiza
 Aplikace projde všechny otevřené issues ve zadaném repozitáři a podle zvolené
 strategie a konfigurace přiřadí uživatele.
 
+Vše lze udělat pomocí knihovny click (výběr možností strategií, výchozí hodnota 
+včetně jejího zobrazení pomocí `show_default`, či příznak `required`).
+
 === Přepínače
 
 `--strategy [append|set|change]`::

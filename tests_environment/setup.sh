@@ -7,11 +7,11 @@
 set -e
 
 if [[ -z "${GITHUB_USER}" ]]; then
-  echo "Set environment variable GH_USER"
+  echo "Set environment variable GITHUB_USER"
   exit 1
 fi
 if [[ -z "${GITHUB_TOKEN}" ]]; then
-  echo "Set environment variable GH_TOKEN"
+  echo "Set environment variable GITHUB_TOKEN"
   exit 1
 fi
 

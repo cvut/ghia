@@ -39,7 +39,7 @@ MarekSuchanek=
 hroncok=any:Python
 
 [fallback]
-name=Need assignment
+label=Need assignment
 ----
 
 Pravidla vždy začínají jedním ze slov `title`, `text`, `label`, `any` určující,

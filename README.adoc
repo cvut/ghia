@@ -120,7 +120,8 @@ Token musí příslušet danému uživateli a mít scope `repo`.
 Skript je potřeba spouštět z adresáře `tests_environment`.
 
 Skript využívá program https://hub.github.com/[hub],
-který si *nejprve zprovozněte*. Skript je otestován na Linux i
+který si *nejprve zprovozněte*. Potřebujete alepsoň verzi 2.8.3.
+Skript je otestován na Linux i
 Windows (pomocí https://gitforwindows.org[git bash]).
 
 [source,console]

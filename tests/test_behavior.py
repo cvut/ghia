@@ -1,6 +1,22 @@
 from helpers import run, config, repo, issue_assignees, issue_labels, issue_set_labels, contains_exactly
 
 
+def test_reset():
+    # This test just tries to reset the repository state
+    # to expected initial one (used to be the last test, but moved)
+    cp = run(f'--config-rules "{config("rules.reset.cfg")}" '
+             f'--config-auth "{config("auth.real.cfg")}" '
+             f'--strategy change {repo}')
+    assert cp.returncode == 0
+    assert len(cp.stderr) == 0
+    assert ['ghia-anna'] == issue_assignees(repo, 5)
+    assert ['ghia-anna', 'ghia-john'] == issue_assignees(repo, 7)
+    assert ['ghia-anna', 'ghia-peter'] == issue_assignees(repo, 8)
+    assert ['ghia-anna'] == issue_assignees(repo, 24)
+    assert ['ghia-anna'] == issue_assignees(repo, 117)
+    assert ['ghia-peter'] == issue_assignees(repo, 118)
+
+
 def test_incorrect_token():
     # This test might end up well even if repo does not exist
     cp = run(f'--config-rules "{config("rules.empty.cfg")}" '
@@ -412,20 +428,4 @@ def test_empty_change():
            f'->' in cp.stdout
     assert [] == issue_assignees(repo, 8)
     assert [] == issue_assignees(repo, 116)
-
-
-def test_reset():
-    # This test just tries to turn back all the issues back
-    # it assumes that test_empty_change works as well
-    cp = run(f'--config-rules "{config("rules.reset.cfg")}" '
-             f'--config-auth "{config("auth.real.cfg")}" '
-             f'--strategy change {repo}')
-    assert cp.returncode == 0
-    assert len(cp.stderr) == 0
-    assert ['ghia-anna'] == issue_assignees(repo, 5)
-    assert ['ghia-anna', 'ghia-john'] == issue_assignees(repo, 7)
-    assert ['ghia-anna', 'ghia-peter'] == issue_assignees(repo, 8)
-    assert ['ghia-anna'] == issue_assignees(repo, 24)
-    assert ['ghia-anna'] == issue_assignees(repo, 117)
-    assert ['ghia-peter'] == issue_assignees(repo, 118)
 

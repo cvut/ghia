@@ -209,7 +209,6 @@ hodnocena plným počtem bodů.
 Odkaz na repozitář s aplikací nám pošlete e-mailem.
 Pro odevzdání v repozitáři nastavte tag `v0.1`.
 
-Termín odevzdání je u této úlohy mimořádně v pondělí (včetně) za 19 dní,
-termín je tedy shodný s příští úlohou.
+Termín odevzdání je u této úlohy mimořádně v pondělí (včetně) za 19 dní.
 Důrazně však doporučujeme odevzdat ji dříve,
 jelikož další úloha na tuto navazuje a chyb v začátku se špatně zbavuje.

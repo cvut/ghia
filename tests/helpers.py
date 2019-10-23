@@ -8,9 +8,13 @@ import subprocess
 import sys
 
 
-def run(line, **kwargs):
-    print('$ python ghia.py', line)
-    command = [sys.executable, 'ghia.py'] + shlex.split(line)
+def run(line, entrypoint=False, **kwargs):
+    if entrypoint:
+        print('$ ghia', line)
+        command = ['ghia'] + shlex.split(line)
+    else:
+        print('$ python -m ghia', line)
+        command = [sys.executable, '-m', 'ghia'] + shlex.split(line)
     return subprocess.run(command,
                           stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE,

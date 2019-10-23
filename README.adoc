@@ -1,111 +1,83 @@
-== GHIA II.
+== GHIA III.
 :toc:
 :note-caption: :information_source:
 :warning-caption: :warning:
 
-== Zadání úkolu 2
+== Zadání úkolu 3
 
-Vaším úkolem za 5 bodů je rozšířit CLI  aplikaci z minulé úlohy o webové rozhraní.
-Stávající funkcionalita ale musí být zachována, mimo původní aplikace půjde tedy
-navíc spustit web server a to pomocí `flask run`.
+Vaším úkolem za 5 bodů je udělat z vašeho dosavadního projektu balíček
+instalovatelný přes pip a nahrát jej na testovací PyPI.
 
-Výslednou aplikaci nasaďte na https://www.pythonanywhere.com[PythonAnywhere],
-nebo jiný veřejný https://www.python.org/dev/peps/pep-3333/[WSGI] hosting.
-Odkaz na běžící aplikaci a repozitář nám pošlete e-mailem.
+Jelikož používáme všichni stejný název aplikace `ghia`,
+tak pro PyPI použijte jako název `ghia_<username>`
+(v reálných situacích se nedoporučuje jiný název než je jméno importovatelného modulu).
 
-Nasazenou aplikaci nastavte tak, abychom mohli chování vyzkoušet vytvářením issues ve
-Vašem repozitáři `mi-pyt-ghia/<username>-web`.
+Pokud svůj kód za žádných okolností nechcete zveřejnit ani na testovací PyPI,
+dejte nám vědět a domluvíme se.
 
-== Specifikace
+NOTE: Pokud jste předchozí úkoly nedělali a nebo neprochází testy,
+můžete použít https://github.com/cvut/ghia/releases/tag/v0.2[naše referenční řešení].
 
-- Aplikace musí přijímat na adrese `/` GitHub webhooky (metoda POST).
-- Aplikace musí správně zpracovat https://developer.github.com/webhooks/[webhooky]
-`issues` a `ping` ve formátu JSON.
+Podmínky (je jich hodně, ale jsou triviální):
 
-Na `ping` aplikace správně odpoví dle dokumentace.
+* Váš balíček musí fungovat (viz zadání předchozích úkolů)
+  po instalaci pomocí pipu do „prázdného“ virtuálního prostředí.
+  Musí tedy mít správně nadefinované všechny závislosti.
+* Musí obsahovat rozumný počet classsifiers a voleb pro `setup.py`.
+* Podpříkazy `sdist` a `bdist_wheel` nesmí skončit chybou ani vyvolat varování.
+* Musí splňovat konvence uvedené ve výukových materiálech:
+** Jméno importovatelného modulu musí být `ghia` a všechny další pomocné
+   moduly musí být jeho podmoduly.
+** Všechny soubory `+__init__.py+` mají být víceméně prázdné a obsahovat pouze
+   importy, případně nastavovat `+__all__+`.
+** Verze balíčku musí odpovídat tagu. V případě iterování odevzdejte klidně verzi 0.3.x (kde x je např. 1, 2...).
+* Hlavní program musí jít spouštět pomocí entrypointu `ghia` i pomocí `-m ghia`.
+* Stále se musí dát z modulu `ghia` přímo importovat Flask `app` (či `create_app`).
+* Pokud jste již tak neučinili, tak rozdělte aplikaci na jednotlivé
+  funkční celky. Měli byste mít alespoň 3 submoduly, například:
+** `cli` - vstup + výpis na konzoli z prvního úkolu,
+** `web` - flask aplikace,
+** `github` - klient pro komunikaci s GitHub API (společný pro `cli` a
+`web`),
+** případně navíc ještě oddělit logiku práce se štítky či další.
+** (Pamatujte že v Pythonu není nutné každou třídu dávat do zvláštního souboru.
+   Také připomínáme, že https://www.python.org/dev/peps/pep-0020/[Flat is better than nested],
+   není tedy vhodné moduly do sebe nořit příliš hluboko.)
+** Vyvarujte se cyklických importů!
+* Zabalený modul musí obsahovat soubor s textem licence (`LICENSE`, `COPYING`) +*+
+* `long_description` musí být dynamicky načten z `README`
 
-Na `issues` aplikace také správně odpoví dle dokumentace,
-navíc přiřadí správné uživatele, případně nastaví správně štítek, dle konfiguračního souboru a zadání minulé úlohy.
-Nastavení probíhá pouze, pokud byla událost vyvolána akcí `opened`, `edited`,
-`transferred`, `reopened`, `assigned`, `unassigned`, `labeled`, `unlabeled`.
-
-Aplikace musí podporovat zabezpečení pomocí webhook secret (viz dále).
-
-Na adrese `/` se při požadavku GET bude nacházet jednoduchá HTML stránka,
-ze které bude jasné, jaká pravidla platí a jaký uživatel bude akce provádět.
-Uživatelské jméno se na stránce zobrazí podle použitého tokenu,
-není zadrátované do kódu aplikace nebo šablony.
-
-Musíte využít šablonu.
-Nebudeme hodnotit vzhled stránky,
-ale využijte HTML pro prezentaci informací.
-Vydumpování Python slovníku do `<pre>` boxu není dostačující.
-Pokud si nejste jisti, použijte zanořené seznamy (username: pravidla).
-Na stránce musí být prezentován název fallback štítku, pokud je nastaven.
-
-=== Spouštění aplikace
-
-Aplikace se musí dát spustit z kořenového adresáře repozitáře pomocí příkazu `flask run`
-a to nastavením proměnné prostředí `FLASK_APP` na `ghia.py`.
-
-[source,console]
-$ export FLASK_APP=ghia.py
-$ flask run
-
-Zároveň je možné pomocí proměnné prostředí nastavit,
-kde má aplikace hledat konfigurační soubor(y).
-
-Pomocí proměnné `GHIA_CONFIG` je možné nastavit cestu k jednomu konfiguračnímu souboru,
-nebo více souborům, oddělených dvojtečkou.
-
-V konfiguračních souborech hledáte sekce `github` a `patterns` (případně také
-nepovinný `fallback`). Chyby v konfiguraci se řeší identicky, jako v CLI aplikaci
-(hlášky a návratový kód).
-
-CLI aplikace z minulého týdne musí stále fungovat a testy z minula musí procházet.
-
-Webová aplikace bude pracovat se strategií `append`. Dobrovolně můžete navíc
-vyřešit nastavování strategie a dry-run například pomocí proměnných prostředí nebo dalších konfiguračních voleb.
-
-=== Zabezpečení webhooku
-
-Protože příjímání událostí z internetu může být riskantní,
-nabízí GitHub možnost webhooky zabezpečit proti zneužiti.
-Abyste rozpoznali, že vám událost poslal právě GitHub,
-je ke každému requestu z GitHubu přiložená hlavička `X-Hub-Signature`, např:
-
-[source]
-X-Hub-Signature: sha1=0b861d9a594a4f421cabcdef75d5aefc46df8967
-
-která vám říká,
-že pokud použijete HMAC hexdigest s odpovídající hash funkcí a s klíčem,
-který je uvedený v položce `secret`, na celé tělo requestu
-a vámi spočítaný výsledek se shoduje s tím v hlavičce `X-Hub-Signature`,
-tak tento request přišel z GitHubu, a můžete mu tedy veřit.
-
-Více informací a příklad v Ruby je na
-https://developer.github.com/webhooks/securing/[github securing].
-
-Do konfigurančího souboru (sekce `github`) tedy přidejte položku `secret`.
-Při nastavování webhooku na GitHubu použijte stejný secret jako při nasazování
-aplikace.
++*+ Vhodnou licenci můžete najít na http://choosealicense.com/[choosealicense.com].
+V případě, že váš kód nechcete šířit pod svobodnou licencí,
+napište to do souboru vlastní podmínky. Nevymýšlejte si ale prosím vlastní
+open-source licence.
 
 == Automatické testy
 
-Testy z minula stále musí procházet.
-Existuje i několik nových testů v souboru `test_web_smoke.py`.
+Testy z minula byly mírně upraveny, aby nevolaly `python ghia.py` přímo,
+ale příkaz `ghia`,
+navíc byly přidány jednoduché testy, které volají `python -m ghia`.
 
-Pro spuštění pouze nových testů můžete použít:
+WARNING: Testy **netestují splnění tohoto úkolu**,
+Testují pouze to, že se nic nerozbilo
+a že funguje spuštění pomocí příkazů výše.
+
+NOTE: Před spuštěním testů předpokládejte, že je váš balíček nainstalován.
+Toho můžete docílit například pomocí `python setup.py develop`
+nebo `pip install -e.`
+
+Nově jsou dodány extra testy ve složce `test_module`, které simulují reálnou instalaci
+vašeho balíčku `ghia` z naklonovaného repozitáře i z testovací PyPI. Navíc testují
+i další náležitosti požadované v tomto zadání (sdist bez warningů, submoduly, závislosti,
+klíčová slova a další metadata). Tyto testy vyžadují nastavené proměnné prostředí
+`CTU_USERNAME` a `GHIA_REPO` pro získání vaší verze ghia (pipem a gitem). V rámci
+testů spouští subprocesy a pokud se na vašem OS jmenují jinak nebo jsou v jiné cestě, než
+standardně na Linuxu, budete muset upravit soubor `fixtures/test_config.cfg`. V případě
+potřeby založte issue. Tyto testy nepracují s aktuálním kódem „kolem nich“, ale s tím, co
+je dostupné přes PyPI (publikováno) a GitHub (napushováno). Testy spustíte pomocí:
 
 [source,console]
-$ python -m pytest -v -k web test
-
-Pro nové testy není třeba speciální setup z minula.
-
-WARNING: Testy **netestují hlavní funkcionalitu aplikace**,
-ale pouze přidružené věci, jako importovatelnost,
-přítomnost usernamu na hlavní stránce, ping, ověření „secret“.
-Ujistěte se, že vaše nasazená aplikace funguje, jak má.
+$ python -m pytest -v test_module
 
 Následuje text z minula, který stále platí:
 
@@ -163,5 +135,5 @@ hodnocena plným počtem bodů.
 
 == Odevzdání úkolu
 
-Odkazy na repozitář a běžící aplikaci nám pošlete e-mailem.
-Pro odevzdání v repozitáři nastavte tag `v0.2`.
+Odkazy na repozitář a balíček na testovací PyPI nám pošlete e-mailem.
+Pro odevzdání v repozitáři nastavte tag `v0.3`, případně `v0.3.1`, `v0.3.2`...

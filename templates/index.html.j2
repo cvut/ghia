@@ -1,0 +1,75 @@
+{% extends 'layout.html.j2' %}
+
+{% macro github_user_link(user) %}
+    <a href="{{ user.html_url }}" target="_blank">{{ user.login }}</a>
+{% endmacro %}
+
+{% macro github_username_link(username) %}
+    {# might not exist but who knows #}
+    <a href="https://github.com/{{ username }}" target="_blank">{{ username }}</a>
+{% endmacro %}
+
+{% set pattern_badges = {'title':'primary', 'text':'success', 'label':'warning', 'any':'danger'} %}
+{% macro ghia_pattern(pattern) %}
+    {% set where, what = pattern.split(':', 1) %}
+
+    <span class="badge badge-{{ pattern_badges[where] }}">{{ where }}</span> <code>{{ what }}</code>
+{% endmacro %}
+
+{% block body %}
+    <div id="intro">
+        <h2>Introduction</h2>
+
+        <p>This simple service uses GitHub webhooks to catch updates of issues and changes assignees according to preconfigured patterns. It is mainly homework for MI-PYT course, but can be actually quite useful although it consists only of this info page (<code>GET /</code>) and webhook listener (<code>POST /</code>).</p>
+    </div>
+    <div id="labels">
+        <h2>Issues processing</h2>
+
+        <p>All actions will be performed via user: <code>{{ github_user_link(user) }}</code></p>
+
+        {% for username, patterns in rules.items() %}
+            <ul>
+                <li>{{ github_username_link(username) }}
+                    <ul>
+                        {% for pattern in patterns %}
+                            <li>{{ ghia_pattern(pattern) }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        {% endfor %}
+
+        {% if fallback_label %}
+            <p>Issues without any assignment will be labeled <span class="badge badge-secondary">{{ fallback_label }}</span></p>
+        {% endif %}
+    </div>
+    <div id="usage">
+        <h2>Service usage</h2>
+
+        <p>To manage PRs of your repo by this service you need to know configured <em>webhook secret</em>, then just:</p>
+
+        <ol>
+            <li>Go to your repository settings at GitHub</li>
+            <li>Pick <em>webhooks</em> from left menu</li>
+            <li>Press <em>Add webhook</em></li>
+            <li>Create webhook with configuration below and press <em>Add webhook</em></li>
+        </ol>
+
+        For more information, visit <a href="https://developer.github.com/webhooks/creating/" target="_blank">GitHub documentation</a>.
+
+        <h3>Webhook configuration</h3>
+
+        <dl>
+            <dt>Payload URL</dt>
+            <dd>{{ request.url }}</dd>
+            <dt>Content type</dt>
+            <dd>application/json</dd>
+            <dt>Secret</dt>
+            <dd><em>webhook secret</em> (cannot be published)</dd>
+            <dt>Which events would you like to trigger this webhook?</dt>
+            <dd>Let me select individual events: <strong>Issues</strong></dd>
+            <dt>Active</dt>
+            <dd>Yes</dd>
+        </dl>
+    </div>
+{% endblock %}

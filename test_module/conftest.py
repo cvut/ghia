@@ -81,6 +81,7 @@ class Utils:
         assert result.was_successful, \
             'Could not create virtualenv for Python: {}'.format(result.stderr)
         self.sh(self.pip, 'install', '--upgrade', 'setuptools')
+        self.sh(self.pip, 'install', '--upgrade', 'pip')
 
     def clone_repo(self, repo_dir):
         result = self.sh(self.git, 'clone', '-b', self.repo_branch, self.repo_ssh, repo_dir)

@@ -1,62 +1,45 @@
-== GHIA III.
+= GHIA IV.
 :toc:
 :note-caption: :information_source:
 :warning-caption: :warning:
 
-== Zadání úkolu 3
+== Zadání úkolu 4
 
-Vaším úkolem za 5 bodů je udělat z vašeho dosavadního projektu balíček
-instalovatelný přes pip a nahrát jej na testovací PyPI.
+Vaším úkolem za 5 bodů je vytvořit vlastní testy k balíčku `ghia` pomocí frameworku
+``pytest`` a knihovny ``betamax``. Není nutné použít ``flexmock``, pokud to nepotřebujete.
 
-Jelikož používáme všichni stejný název aplikace `ghia`,
-tak pro PyPI použijte jako název `ghia_<username>`
-(v reálných situacích se nedoporučuje jiný název než je jméno importovatelného modulu).
-
-Pokud svůj kód za žádných okolností nechcete zveřejnit ani na testovací PyPI,
-dejte nám vědět a domluvíme se.
+Námi dodávané testy jsou tz. _akceptační_, skoro až _integrační_. Testují aplikaci
+z venku, jako black box a navíc proti živému API. Rozšiřte testovací sadu o testy
+_jednotkové_: tedy testy, které testují vaše vlastní metody, funkce, třídy apod.
+Vaše testy již nesmí komunikovat s reálným GitHub API.
 
 NOTE: Pokud jste předchozí úkoly nedělali a nebo neprochází testy,
-můžete použít https://github.com/cvut/ghia/releases/tag/v0.2[naše referenční řešení].
+můžete použít https://github.com/cvut/ghia/tree/v0.3[naše referenční řešení].
 
-Podmínky (je jich hodně, ale jsou triviální):
+=== Podmínky:
 
-* Váš balíček musí fungovat (viz zadání předchozích úkolů)
-  po instalaci pomocí pipu do „prázdného“ virtuálního prostředí.
-  Musí tedy mít správně nadefinované všechny závislosti.
-* Musí obsahovat rozumný počet classsifiers a voleb pro `setup.py`.
-* Podpříkazy `sdist` a `bdist_wheel` nesmí skončit chybou ani vyvolat varování.
-* Musí splňovat konvence uvedené ve výukových materiálech:
-** Jméno importovatelného modulu musí být `ghia` a všechny další pomocné
-   moduly musí být jeho podmoduly.
-** Všechny soubory `+__init__.py+` mají být víceméně prázdné a obsahovat pouze
-   importy, případně nastavovat `+__all__+`.
-** Verze balíčku musí odpovídat tagu. V případě iterování odevzdejte klidně verzi 0.3.x (kde x je např. 1, 2...).
-* Hlavní program musí jít spouštět pomocí entrypointu `ghia` i pomocí `-m ghia`.
-* Stále se musí dát z modulu `ghia` přímo importovat Flask `app` (či `create_app`).
-* Pokud jste již tak neučinili, tak rozdělte aplikaci na jednotlivé
-  funkční celky. Měli byste mít alespoň 3 submoduly, například:
-** `cli` - vstup + výpis na konzoli z prvního úkolu,
-** `web` - flask aplikace,
-** `github` - klient pro komunikaci s GitHub API (společný pro `cli` a
-`web`),
-** případně navíc ještě oddělit logiku práce se štítky či další.
-** (Pamatujte že v Pythonu není nutné každou třídu dávat do zvláštního souboru.
-   Také připomínáme, že https://www.python.org/dev/peps/pep-0020/[Flat is better than nested],
-   není tedy vhodné moduly do sebe nořit příliš hluboko.)
-** Vyvarujte se cyklických importů!
-* Zabalený modul musí obsahovat soubor s textem licence (`LICENSE`, `COPYING`) +*+
-* `long_description` musí být dynamicky načten z `README`
+* Musí fungovat `setup.py test` a to nejen z gitu, ale i při rozbalení archivu `sdist`.
+* Všechny testovací závislosti se musí při uvedeném příkazu nainstalovat.
+** Je nutné správně rozlišit testovací a runtime závislosti.
+* Testy samotné musí fungovat offline a bez nutnosti mít přístupové údaje k API.
+* Spuštění testů i znovu-nahrání kazet musí být zdokumentováno v `README`. Je nutné umožnit všem znovunahrát kazety (tedy i lidem, kteří nemají přístup k vašemu GitHub účtu). Pro (znovu)vytvoření situace pro nahrání kazet můžete (ale nemusíte) použít (či upravit) skript `setup.sh` z našich současných testů.
+* Nahrané kazety musí být v gitu a být součástí balíčku (ale neinstalují se).
+* Žádné nahrané kazety (ani jiné soubory) nesmí obsahovat citlivé údaje.
+* Alespoň část testu by měla být parametrická.
+* Musí být použit nativní způsob pytest testů (pytest umí spouštět i testy pro `unittest` apod.).
+* Testuje se všechno ++*++.
+* Testy musí běžet i na Travis CI (případně jiném veřejném CI).
 
-+*+ Vhodnou licenci můžete najít na http://choosealicense.com/[choosealicense.com].
-V případě, že váš kód nechcete šířit pod svobodnou licencí,
-napište to do souboru vlastní podmínky. Nevymýšlejte si ale prosím vlastní
-open-source licence.
++*+ Záměrně nestanovujeme podmínku na 100% pokrytí kódu testy.
+Otestujte prostě kód tak, aby byly otestovány všechny podstatné součásti
+včetně webové aplikace.
 
 == Automatické testy
 
-Testy z minula byly mírně upraveny, aby nevolaly `python ghia.py` přímo,
-ale příkaz `ghia`,
-navíc byly přidány jednoduché testy, které volají `python -m ghia`.
+Námi dodané testy z minulých úloh jsou stále závazné, můžete (ale nemusíte) je
+přibalit k vašim testům, ale musí být odděleny (jiná složka).
+
+Následuje text z minula, který stále platí:
 
 WARNING: Testy **netestují splnění tohoto úkolu**,
 Testují pouze to, že se nic nerozbilo
@@ -66,7 +49,7 @@ NOTE: Před spuštěním testů předpokládejte, že je váš balíček nainsta
 Toho můžete docílit například pomocí `python setup.py develop`
 nebo `pip install -e.`
 
-Nově jsou dodány extra testy ve složce `test_module`, které simulují reálnou instalaci
+K úkolu na moduly jsou dodány extra testy ve složce `test_module`, které simulují reálnou instalaci
 vašeho balíčku `ghia` z naklonovaného repozitáře i z testovací PyPI. Navíc testují
 i další náležitosti požadované v tomto zadání (sdist bez warningů, submoduly, závislosti,
 klíčová slova a další metadata). Tyto testy vyžadují nastavené proměnné prostředí
@@ -79,9 +62,7 @@ je dostupné přes PyPI (publikováno) a GitHub (napushováno). Testy spustíte 
 [source,console]
 $ python -m pytest -v test_module
 
-Následuje text z minula, který stále platí:
-
-K úloze existuje sada testů.
+K úloze existuje sada integračních/akceptačních testů (k úlohám na click+requests a flask).
 Pro jejich spuštění nainstalujte do virtuálního prostředí balík `pytest`.
 
 Testy vyžadují určitý setup repozitáře v rámci organizace MI-PYT-ghia, do
@@ -135,5 +116,5 @@ hodnocena plným počtem bodů.
 
 == Odevzdání úkolu
 
-Odkazy na repozitář a balíček na testovací PyPI nám pošlete e-mailem.
-Pro odevzdání v repozitáři nastavte tag `v0.3`, případně `v0.3.1`, `v0.3.2`...
+Úkol odevzdáváte tradičně s tagem `v0.4` a nahráním nové verze na testovací
+PyPI. Použijte verzi 0.4 (případně 0.4.x v souladu s tagem).

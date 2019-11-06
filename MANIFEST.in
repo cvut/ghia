@@ -1,0 +1,3 @@
+include LICENSE
+include config/auth.example.cfg
+include config/rules.example.cfg

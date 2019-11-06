@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Marek Suchánek">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHIA</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>
+                GHIA
+                <small class="text-muted">GitHub Issues Assigner</small>
+            </h1>
+        </header>
+        <hr>
+        <article id="content">
+            {% block body %}{% endblock %}
+        </article>
+        <hr>
+        <footer class="text-muted">
+            Marek Suchánek &amp; Miro Hrončok (for <a href="https://github.com/cvut/MI-PYT/" target="_blank">MI-PYT</a>) &copy; 2019
+        </footer>
+    </main>
+</body>
+</html>

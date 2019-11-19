@@ -1,43 +1,50 @@
-= GHIA IV.
+= GHIA V.
 :toc:
 :note-caption: :information_source:
 :warning-caption: :warning:
 
-== Zadání úkolu 4
+== Zadání úkolu 5
 
-Vaším úkolem za 5 bodů je vytvořit vlastní testy k balíčku `ghia` pomocí frameworku
-``pytest`` a knihovny ``betamax``. Není nutné použít ``flexmock``, pokud to nepotřebujete.
+Vaším úkolem za 5 bodů je vytvořit pomocí http://www.sphinx-doc.org[Sphinx] 
+dokumentaci k vašemu projektu `ghia`.
+(V ojedinělých případech je možné po e-mailové domluvě místo toho vytvořit dokumentaci k projektu `edgemaze`.)
 
-Námi dodávané testy jsou tz. _akceptační_, skoro až _integrační_. Testují aplikaci
-z venku, jako black box a navíc proti živému API. Rozšiřte testovací sadu o testy
-_jednotkové_: tedy testy, které testují vaše vlastní metody, funkce, třídy apod.
-Vaše testy již nesmí komunikovat s reálným GitHub API.
+Měla by obsahovat textovou část, ze které bude jasné, co je, k čemu je,
+jak se nainstaluje a jak se používá vaše aplikace. Můžete předpokládat, že
+uživatel ví, co je to GitHub, issue, pull request, label, asignee, repozitář apod.
+Nepředpokládejte ale, že ví, kde najde API token či webhook, že ví, co to je,
+jak se k nim chovat apod.
 
-NOTE: Pokud jste předchozí úkoly nedělali a nebo neprochází testy,
-můžete použít https://github.com/cvut/ghia/tree/v0.3[naše referenční řešení].
+Pokud hypoteticky ukážeme dokumentaci kolegům, kteří nikdy neviděli zadání
+vašeho úkolu, musí to pro ně být stejně pochopitelné.
 
-=== Podmínky:
+Dále by dokumentace měla obsahovat textovou část s ukázkami kódu, které se
+testují pomocí doctestu. Tato část může vysvětlovat, jak váš kód použít pro
+výrobu jiné aplikace, nebo může popisovat, jak aplikace uvnitř funguje.
 
-* Musí fungovat `setup.py test` a to nejen z gitu, ale i při rozbalení archivu `sdist`.
-* Všechny testovací závislosti se musí při uvedeném příkazu nainstalovat.
-** Je nutné správně rozlišit testovací a runtime závislosti.
-* Testy samotné musí fungovat offline a bez nutnosti mít přístupové údaje k API.
-* Spuštění testů i znovu-nahrání kazet musí být zdokumentováno v `README`. Je nutné umožnit všem znovunahrát kazety (tedy i lidem, kteří nemají přístup k vašemu GitHub účtu). Pro (znovu)vytvoření situace pro nahrání kazet můžete (ale nemusíte) použít (či upravit) skript `setup.sh` z našich současných testů.
-* Nahrané kazety musí být v gitu a být součástí balíčku (ale neinstalují se).
-* Žádné nahrané kazety (ani jiné soubory) nesmí obsahovat citlivé údaje.
-* Alespoň část testu by měla být parametrická.
-* Musí být použit nativní způsob pytest testů (pytest umí spouštět i testy pro `unittest` apod.).
-* Testuje se všechno ++*++.
-* Testy musí běžet i na Travis CI (případně jiném veřejném CI).
+V dokumentaci by měla existovat kapitola s *kompletní* API dokumentací vašich
+modulů, tříd, funkcí apod. Všechny tyto věci musí mít v kódu dokumentační
+řetězce, které v dokumentaci musí být zobrazeny (t.j. změna dokumentačního
+řetězce se automaticky promítne ve vygenerované dokumentaci).
 
-+*+ Záměrně nestanovujeme podmínku na 100% pokrytí kódu testy.
-Otestujte prostě kód tak, aby byly otestovány všechny podstatné součásti
-včetně webové aplikace.
+Jak sestavit a testovat dokumentaci by mělo být jasné z `README.rst`
+(a to musí mít http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html[reStructuredText]
+syntaxi). 
+`README.rst` musí obsahovat základní informace o projektu, pokročilejší věci patří do Sphinx dokumentace.
+
+Generování dokumentace ani doctesty nesmí způsobit chybu ani varování.
+Potlačení chybových a varovných hlášek (např. konfigurací, přesměrováním
+*stderr*, apod.) je povoleno jen po konzultaci s cvičícím.
+
+Dokumentace musí být v angličtině.
+
+Dosavadní funkcionalita aplikace musí být samozřejmě zachována.
+
+Za fungující publikaci smysluplné dokumentace na https://readthedocs.org/[Read the Docs] je možné získat bod navíc.
 
 == Automatické testy
 
-Námi dodané testy z minulých úloh jsou stále závazné, můžete (ale nemusíte) je
-přibalit k vašim testům, ale musí být odděleny (jiná složka).
+Námi dodané testy z minulých úloh jsou stále závazné.
 
 Následuje text z minula, který stále platí:
 
@@ -116,5 +123,5 @@ hodnocena plným počtem bodů.
 
 == Odevzdání úkolu
 
-Úkol odevzdáváte tradičně s tagem `v0.4` a nahráním nové verze na testovací
-PyPI. Použijte verzi 0.4 (případně 0.4.x v souladu s tagem).
+Úkol odevzdáváte tradičně s tagem `v0.5` a nahráním nové verze na testovací
+PyPI. Použijte verzi 0.5 (případně 0.5.x v souladu s tagem).

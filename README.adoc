@@ -1,46 +1,41 @@
-= GHIA V.
+= GHIA VI.
 :toc:
 :note-caption: :information_source:
 :warning-caption: :warning:
 
-== Zadání úkolu 5
+== Zadání úkolu 6
 
-Vaším úkolem za 5 bodů je vytvořit pomocí http://www.sphinx-doc.org[Sphinx] 
-dokumentaci k vašemu projektu `ghia`.
-(V ojedinělých případech je možné po e-mailové domluvě místo toho vytvořit dokumentaci k projektu `edgemaze`.)
+Vaším úkolem za 5 bodů je vytvořit asynchronní zpracování repozitářů,
+issues a jejich oštítkování v rámci aplikace `ghia` s použitím
+knihovny https://aiohttp.readthedocs.io/en/stable/[aiohttp].
 
-Měla by obsahovat textovou část, ze které bude jasné, co je, k čemu je,
-jak se nainstaluje a jak se používá vaše aplikace. Můžete předpokládat, že
-uživatel ví, co je to GitHub, issue, pull request, label, asignee, repozitář apod.
-Nepředpokládejte ale, že ví, kde najde API token či webhook, že ví, co to je,
-jak se k nim chovat apod.
+* Upravte CLI tak, aby bylo možné zadat libovolný počet repozitářů ke zpracování (pozor, že
+  musíte kontrolovat jejich správnost) pomocí argumentu ``reposlug``.
+* Do implementace CLI nástroje `ghia` doplňte přepínač ``-x``/``--async``, se kterým bude zpracování
+  repozitářů a issue probíhat v asynchronním režimu pomocí https://aiohttp.readthedocs.io/[aiohttp]:
+** Pokud je zadáno více repozitářů v argumentech, pak se zpracovávají asynchronně.
+** Získání seznamu issue z více stránek musí být asynchronní (čeká se synchronně jen
+   na první stránku pro zjištění počtu stránek).
+** Zpracování jednotlivých issue je asynchronní.
+* Výstup je obdobný tomu z první úlohy s tím (viz níže), že se v něm mohou objevovat issue (případně chyby)
+  z různých repozitářů a že pořadí jednotlivých issue při asynchronním zpracování nehraje roli. Vypisujte
+  vždy zpracování jednoho issue najednou tak, aby název a odkaz na issue byl následován změnami daného issue
+  a nedošlo ke smíchání s jinými issue.
+* Popište tento nový režim v dokumentaci.
+* (nepovinně) Rozšiřte vlastní jednotkové testy o testování práce v asynchronním režimu.
+  Pozor ale, že betamax funguje pouze s knihovnou requests. Pro obecné mockování HTTP komunikace doporučujeme
+  vyzkoušet https://vcrpy.readthedocs.io/[vcrpy] (má trochu jiné API, ale principy zůstávají stejné).
+* Původní funkcionalita musí zůstat zachována. Možností by bylo samozřejmě napsat zcela odděleně
+  asynchronní logiku, ale znovupoužitím a případným upravením existujících částí kódu můžete
+  ušetřit relativně hodně času (například s využitím návrhových vzorů Strategy a/nebo Observer).
 
-Pokud hypoteticky ukážeme dokumentaci kolegům, kteří nikdy neviděli zadání
-vašeho úkolu, musí to pro ně být stejně pochopitelné.
+image::screenshots/screen_changes.png[Screenshot - changes]
 
-Dále by dokumentace měla obsahovat textovou část s ukázkami kódu, které se
-testují pomocí doctestu. Tato část může vysvětlovat, jak váš kód použít pro
-výrobu jiné aplikace, nebo může popisovat, jak aplikace uvnitř funguje.
+image::screenshots/screen_fallback_label.png[Screenshot - fallback label]
 
-V dokumentaci by měla existovat kapitola s *kompletní* API dokumentací vašich
-modulů, tříd, funkcí apod. Všechny tyto věci musí mít v kódu dokumentační
-řetězce, které v dokumentaci musí být zobrazeny (t.j. změna dokumentačního
-řetězce se automaticky promítne ve vygenerované dokumentaci).
+image::screenshots/screen_error_repo.png[Screenshot - error repo]
 
-Jak sestavit a testovat dokumentaci by mělo být jasné z `README.rst`
-(a to musí mít http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html[reStructuredText]
-syntaxi). 
-`README.rst` musí obsahovat základní informace o projektu, pokročilejší věci patří do Sphinx dokumentace.
-
-Generování dokumentace ani doctesty nesmí způsobit chybu ani varování.
-Potlačení chybových a varovných hlášek (např. konfigurací, přesměrováním
-*stderr*, apod.) je povoleno jen po konzultaci s cvičícím.
-
-Dokumentace musí být v angličtině.
-
-Dosavadní funkcionalita aplikace musí být samozřejmě zachována.
-
-Za fungující publikaci smysluplné dokumentace na https://readthedocs.org/[Read the Docs] je možné získat bod navíc.
+image::screenshots/screen_error_issue.png[Screenshot - error issue]
 
 == Automatické testy
 
@@ -123,5 +118,5 @@ hodnocena plným počtem bodů.
 
 == Odevzdání úkolu
 
-Úkol odevzdáváte tradičně s tagem `v0.5` a nahráním nové verze na testovací
-PyPI. Použijte verzi 0.5 (případně 0.5.x v souladu s tagem).
+Úkol odevzdáváte tradičně s tagem `v0.6` a nahráním nové verze na testovací
+PyPI. Použijte verzi 0.6 (případně 0.6.x v souladu s tagem).

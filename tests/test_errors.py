@@ -6,7 +6,7 @@ def test_no_reposlug():
              f'--config-auth "{config("auth.fff.cfg")}"')
     assert cp.returncode != 0
     assert not cp.stdout
-    assert 'Error: Missing argument "REPOSLUG".' in cp.stderr
+    assert 'Error: Missing argument "REPOSLUG...".' in cp.stderr
 
 
 def test_no_config():
@@ -59,4 +59,4 @@ def test_invalid_reposlug():
              'foobar')
     assert cp.returncode != 0
     assert not cp.stdout
-    assert 'Error: Invalid value for "REPOSLUG": not in owner/repository format' in cp.stderr
+    assert 'Error: Invalid value for "REPOSLUG...": not in owner/repository format' in cp.stderr
